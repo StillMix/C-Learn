@@ -1,50 +1,22 @@
-# project.pro - файл описания проекта для системы сборки qmake
+// project.pro - Файл проекта для qmake (альтернатива CMakeLists.txt)
+QT += core gui widgets webengine webenginewidgets
 
-# Указываем необходимые модули Qt
-QT += core gui widgets    # core - основной функционал, gui - графический интерфейс, widgets - виджеты
+CONFIG += c++17
 
-# Имя целевого файла (исполняемого)
-TARGET = MultiPageApp     # Имя приложения
-
-# Тип проекта
-TEMPLATE = app            # app - обычное приложение (не библиотека)
-
-# Добавляем все директории в путь поиска исходников
-INCLUDEPATH += mainwindow \
-               firstpage \
-               secondpage
-
-# Настройка директорий сборки
-# Директория для объектных файлов (.o)
-OBJECTS_DIR = build/obj
-
-# Директория для moc-файлов (файлы, создаваемые Meta-Object Compiler)
-MOC_DIR = build/moc
-
-# Директория для ui-файлов (если используете .ui файлы)
-UI_DIR = build/ui
-
-# Директория для rcc-файлов (если используете ресурсы Qt)
-RCC_DIR = build/rcc
-
-# Установка выходной директории для исполняемого файла
-CONFIG(debug, debug|release) {
-    # Для отладочной сборки
-    DESTDIR = bin/debug
-} else {
-    # Для релизной сборки
-    DESTDIR = bin/release
-}
-
-# Список исходных файлов C++
 SOURCES += \
-    main.cpp \            # Точка входа в программу
-    mainwindow/mainwindow.cpp \      # Реализация главного окна
-    firstpage/firstpage.cpp \       # Реализация первой страницы
-    secondpage/hello2.cpp            # Реализация второй страницы (не соответствует имени класса)
+    main.cpp \
+    backend.cpp
 
-# Список заголовочных файлов
 HEADERS += \
-    mainwindow/mainwindow.h \        # Заголовочный файл главного окна
-    firstpage/firstpage.h \         # Заголовочный файл первой страницы
-    secondpage/secondpage.h          # Заголовочный файл второй страницы
+    backend.h
+
+RESOURCES += \
+    resources.qrc
+
+# Правила для копирования файлов Vue.js
+win32 {
+    QMAKE_POST_LINK += xcopy /E /I /Y $$shell_path($$PWD/frontend/dist) $$shell_path($$OUT_PWD/frontend/dist)
+} else {
+    QMAKE_POST_LINK += mkdir -p $$shell_path($$OUT_PWD/frontend/dist) && \
+                      cp -r $$shell_path($$PWD/frontend/dist) $$shell_path($$OUT_PWD/frontend)
+}

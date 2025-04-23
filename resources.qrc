@@ -1,0 +1,9 @@
+# resources.qrc - Файл ресурсов Qt
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/">
+        <file>frontend/dist/index.html</file>
+        <file>frontend/dist/js/app.js</file>
+        <file>frontend/dist/css/app.css</file>
+    </qresource>
+</RCC>
