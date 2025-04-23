@@ -76,3 +76,13 @@ void MainWindow::showSecondPage() {
     m_firstPageAction->setChecked(false);    // Снимаем отметку
     m_secondPageAction->setChecked(true);    // Отмечаем как активную
 }
+
+// Слот для отображения первой страницы
+void MainWindow::showFirstPage() {
+    // Устанавливаем текущим виджетом в стеке первую страницу
+    m_stackedWidget->setCurrentWidget(m_firstPage);
+    
+    // Обновляем состояние кнопок (активна только кнопка первой страницы)
+    m_firstPageAction->setChecked(true);    // Отмечаем как активную
+    m_secondPageAction->setChecked(false);  // Снимаем отметку
+}
